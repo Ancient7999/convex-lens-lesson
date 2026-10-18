@@ -195,7 +195,7 @@
     const Lr = lineOf();
     if (!Lr || !Lr.ok) { flag('a', 'Draw the line first: it must slope downwards and cut both axes.'); IN.b.classList.add('flag'); }
     else {
-      const ta = .0006;
+      const ta = .0002;
       const aOK = Math.abs(av('a') - Lr.a) <= ta, bOK = Math.abs(av('b') - Lr.b) <= ta;
       const swap = !aOK && !bOK && Math.abs(av('a') - Lr.b) <= ta && Math.abs(av('b') - Lr.a) <= ta;
       if (swap) { flag('a', 'a and b are swapped: a is where the line cuts the horizontal 1/u axis, b where it cuts the vertical 1/v axis.'); IN.b.classList.add('flag'); }
@@ -213,19 +213,19 @@
     else flag('mi', 'Mean intercept = (a + b) ÷ 2, with the two intercepts above.');
     /* 6 · graphical F */
     const fg = av('mi') ? 1 / av('mi') : NaN;
-    if (rel(av('fg'), fg, .002)) good('fg');
+    if (rel(av('fg'), fg, .002) || (Lr && Lr.ok && rel(av('fg'), 2 / (Lr.a + Lr.b), .002))) good('fg');
     else if (rel(av('fg'), av('mi'), .01)) flag('fg', 'The mean intercept is 1/F in cm⁻¹. Take the reciprocal: F = 1 ÷ mean intercept.');
     else if ((rel(av('fg'), 1 / av('a'), .002) || rel(av('fg'), 1 / av('b'), .002)) && Math.abs(av('a') - av('b')) > .00005) flag('fg', 'That is 1 ÷ one intercept. F<sub>graph</sub> = 1 ÷ mean intercept.');
     else if (rel(av('fg'), 2 / av('mi'), .01)) flag('fg', 'F<sub>graph</sub> = 1 ÷ mean intercept, not 2 ÷ it.');
     else flag('fg', 'F<sub>graph</sub> = 1 ÷ (mean intercept).');
     /* 7 · f in metres */
-    if (Math.abs(av('fm') - av('fex') / 100) <= .00051) good('fm');
+    if (Math.abs(av('fm') - av('fex') / 100) <= .00051 || Math.abs(av('fm') - mF / 100) <= .00051) good('fm');
     else if (rel(av('fm'), av('fex'), .002)) flag('fm', 'f is still in cm. For the power it goes into metres: f ÷ 100.');
     else if (rel(av('fm'), av('fex') / 1000, .01)) flag('fm', 'That divides by 1000 (mm to m). From cm to m divide by 100.');
     else flag('fm', 'f in metres = Mean (F) in cm ÷ 100.');
     /* 8 · power */
     const P = av('fm') ? 1 / av('fm') : NaN;
-    if (rel(av('P'), P, .004)) good('P');
+    if (rel(av('P'), P, .004) || rel(av('P'), 100 / mF, .004)) good('P');
     else if (rel(av('P'), 1 / av('fex'), .01)) flag('P', 'That uses f in cm, so it is a hundred times too small. P = 1 ÷ f with f in metres: 1 ÷ 0.15 ≈ 6.67 D.');
     else if (rel(av('P'), 100 / av('fm'), .01) && av('fm') < 1) flag('P', 'That is a hundred times too large: f is already in metres, so P = 1 ÷ f.');
     else if (rel(av('P'), av('fm'), .01)) flag('P', 'The power is the reciprocal of f, not f itself: P = 1 ÷ f.');
@@ -233,7 +233,8 @@
     /* 9, 10 · percentage errors */
     [['e1', 'fex'], ['e2', 'fg']].forEach(([k, s]) => {
       const pe = av('fth') ? Math.abs(av(s) - av('fth')) / av('fth') * 100 : NaN;
-      if (isFinite(pe) && Math.abs(av(k) - pe) <= .06) good(k);
+      const pe2 = Math.abs((s === 'fex' ? mF : (Lr && Lr.ok ? 2 / (Lr.a + Lr.b) : NaN)) - LENS.label) / LENS.label * 100;
+      if ((isFinite(pe) && Math.abs(av(k) - pe) <= .06) || (isFinite(pe2) && Math.abs(av(k) - pe2) <= .06)) good(k);
       else if (isFinite(pe) && Math.abs(av(k) - pe / 100) <= .0006 && pe > .05) flag(k, 'That is the fraction. Multiply by 100 for a percentage.');
       else flag(k, `% error = |${s === 'fex' ? 'F<sub>exp</sub>' : 'F<sub>graph</sub>'} − f<sub>th</sub>| ÷ f<sub>th</sub> × 100, with the values above.`);
     });
@@ -274,8 +275,8 @@
       case 'nF': return { title: '', nm: 'the number of readings', where: 'How many rows of the table are filled.', src: () => table.querySelector('tbody') };
       case 'r-fex': return { title: '', nm: 'Mean (F) in cm', where: 'The result of this line. It goes into the answer box, into f in metres (line 7) and the % error (line 9).', src: () => wNum('fm', 'fexv') || lSym('fm', 'fexp') };
       case 'fexp': case 'fexv': case 'fexq': case 'e1f': return { title: 'Mean (<i>F</i>) from line 2', nm: 'experimental F in cm', where: 'From the answer box of line 2.', src: () => IN.fex };
-      case 'a': return { title: '<i>a</i>: intercept on the 1/<i>u</i> axis, in cm⁻¹', nm: 'a', where: 'Where the extended line cuts the horizontal axis (1/v = 0). Graph, left marker on the 1/u axis.', src: () => aMark };
-      case 'b': return { title: '<i>b</i>: intercept on the 1/<i>v</i> axis, in cm⁻¹', nm: 'b', where: 'Where the extended line cuts the vertical axis (1/u = 0). Graph, marker on the 1/v axis.', src: () => bMark };
+      case 'a': return { title: '<i>a</i>: intercept on the 1/<i>u</i> axis, in cm⁻¹', nm: 'a', where: 'Where the extended line cuts the horizontal axis (1/v = 0). Graph, marker a on the 1/u axis.', src: () => aMark };
+      case 'b': return { title: '<i>b</i>: intercept on the 1/<i>v</i> axis, in cm⁻¹', nm: 'b', where: 'Where the extended line cuts the vertical axis (1/u = 0). Graph, marker b on the 1/v axis.', src: () => bMark };
       case 'ap': case 'av': return { title: '<i>a</i> from line 3', nm: 'a in cm⁻¹', where: 'From the answer box of line 3.', src: () => IN.a };
       case 'bp': case 'bv': return { title: '<i>b</i> from line 4', nm: 'b in cm⁻¹', where: 'From the answer box of line 4.', src: () => IN.b };
       case 'mi': return { title: 'Mean intercept = 1/<i>F</i>, in cm⁻¹', nm: 'mean intercept', where: 'Both intercepts estimate 1/F, so their mean is the best value from the line.', src: () => wNum('mi', 'r-mi') || IN.mi };
