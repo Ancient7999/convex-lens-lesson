@@ -79,9 +79,9 @@
     const right = X0 + W;
     if (Math.abs(u - f) < 1e-6) {
       /* object at F: parallel rays, image at infinity */
-      el('path', Object.assign({ d: `M${ox} ${Y0 - h} L${X0} ${Y0 - h} L${right} ${Y0 - h - (right - X0) * h / f}` }, RAY), g);
+      el('path', Object.assign({ d: `M${ox} ${Y0 - h} L${X0} ${Y0 - h} L${right} ${Y0 - h + (right - X0) * h / f}` }, RAY), g);
       el('path', Object.assign({ d: `M${ox} ${Y0 - h} L${right} ${Y0 - h + (right - ox) * h / u}` }, RAY2), g);
-      if (o.labels !== false) txt(g, right - 6, Y0 + 40, 'parallel rays: image at infinity', { 'text-anchor': 'end', 'font-size': 13, 'font-family': F_BODY, fill: C.acc2, 'font-style': 'italic' });
+      if (o.labels !== false) txt(g, right - 6, Y0 - h - 14, 'parallel rays: image at infinity', { 'text-anchor': 'end', 'font-size': 13, 'font-family': F_BODY, fill: C.acc2, 'font-style': 'italic' });
       return { g, v: Infinity };
     }
     const v = u * f / (u - f), hi = -h * v / u; /* v < 0: virtual */
