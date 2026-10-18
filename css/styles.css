@@ -485,3 +485,22 @@ svg .trace-src{outline:none!important;filter:drop-shadow(0 0 4px rgba(var(--acc-
 /* during a tutorial the apparatus is scaled to fit between the header and the dock */
 body.tut-on .rig-frame > svg{max-height:calc(100vh - var(--top) - var(--rail-h, 0px) - var(--dock-h, 170px) - 30px);margin:0 auto}
 @media (max-width:980px){ :root{--rail-h:58px} }
+
+/* graph handles and markers */
+.g-h{cursor:grab;outline:none}
+.g-h:focus-visible circle:nth-child(2){stroke-width:4}
+.g-h.grab{cursor:grabbing}
+.g-h circle:nth-child(2){transition:r .15s}
+.g-h:hover circle:nth-child(2){r:10}
+.g-read .g-none{grid-column:1/-1;font:italic 400 15px/1.4 var(--f-body);color:var(--muted)}
+.warn-t{color:var(--warn-ink);font-style:italic}
+.g-mark.trace-src path{stroke:var(--acc);stroke-width:3}
+#lens-graph-panel{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-rows:auto auto auto auto 1fr;column-gap:30px;align-items:start}
+#lens-graph-panel .panel-head{grid-column:1/-1}
+#lens-graph-panel .graph-wrap{grid-row:2/span 4;margin:0}
+#lens-graph-panel .g-read{grid-template-columns:minmax(0,1fr);margin-top:0}
+#lens-graph-panel .g-read > div{border-right:0;border-bottom:1px solid var(--rule);padding:12px 14px}
+#lens-graph-panel .g-read > div:last-child{border-bottom:0}
+#lens-graph-panel .g-read b{font-size:19px}
+.result-box .res-t th:last-child{text-align:right}
+@media (max-width:980px){#lens-graph-panel{display:block}#lens-graph-panel .g-read{margin-top:12px}}
