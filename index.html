@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Focal length of a convex lens</title>
+<meta name="description" content="Interactive lesson: the focal length of a convex lens by the u–v method on an optical bench, the 1/v against 1/u graph, and the power of the lens in dioptres.">
+<link rel="preload" href="fonts/EBGaramond-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/FiraSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23161a13'/%3E%3Cpath d='M16 4 Q24 16 16 28 Q8 16 16 4Z' fill='%23cfe4e3'/%3E%3Cpath d='M2 11 H16 L30 16 M2 21 H16 L30 16' stroke='%23b23d1d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div id="cursor" class="hidden" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 34 34"><circle class="cu-ring" cx="17" cy="17" r="12"/><path class="cu-ret" d="M17 1v8M17 25v8M1 17h8M25 17h8"/><path class="cu-lens" d="M17 10.5 Q21 17 17 23.5 Q13 17 17 10.5Z"/><circle class="cu-dot" cx="17" cy="17" r="1.3"/></svg></div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5 Q17.5 12 12 21.5 Q6.5 12 12 2.5Z" fill="#cfe4e3"/><path d="M1 8 H12 L23 12 M1 16 H12 L23 12" stroke="#e2593a" stroke-width="1.3" fill="none"/></svg></span><div><div class="brand-t">Convex lens</div><div class="brand-s">Optics · Lab 11 · u–v method</div></div></div>
+    <div class="top-crumb" id="top-crumb"></div>
+    <div class="top-r"><span>Focal length &amp; power</span><span class="chip">f · P</span></div>
+  </header>
+  <nav class="rail" id="rail-nav" aria-label="Sections"></nav>
+  <main class="stage">
+
+    <!-- ===================== PRACTICAL ===================== -->
+    <section class="view" id="view-lens-practical" data-title="Practical">
+      <div class="sheet wide">
+        <div class="folio"><span><b>Lab 11</b> · Practical</span><span>Optical bench</span></div>
+        <div class="prac-intro">
+          <h1 class="page-h">Focal length of a <em>convex lens</em></h1>
+          <p class="lede">A distant window, focused on a card, gives a rough focal length. Then a lamp house, the lens and a screen go on an optical bench: for each object distance <i>u</i> the screen is slid until the image is sharp, giving <i>v</i>. Each pair gives <i>F</i> from 1/<i>F</i> = 1/<i>u</i> + 1/<i>v</i>, the graph of 1/<i>v</i> against 1/<i>u</i> gives it again, and the power follows as <i>P</i> = 1/<i>f</i>.</p>
+          <button type="button" class="btn-tut" id="lens-tut"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.5v11l9-5.5z" fill="currentColor"/></svg>Start tutorial</button>
+        </div>
+
+        <h2 class="step-h"><span class="no">01</span>Rough focal length <em>· a distant object</em></h2>
+        <div class="rig-frame rig tlock" id="dist-frame"><svg id="dist-rig" viewBox="0 0 1000 330" role="img" aria-label="A window across the room, the lens on a stand at the zero of a rule, and a card that slides along the rule"></svg></div>
+        <p class="rig-msg" id="dist-msg" aria-live="polite"></p>
+        <div class="dist-mid">
+          <div class="panel tlock" id="dist-ctl">
+            <h2 class="panel-h">Card</h2>
+            <div class="ctl-row"><span class="lab">Move</span><span class="nudge-btns"><button type="button" class="btn-quiet" data-d="-1" aria-label="Card 1 cm towards the lens">−1</button><button type="button" class="btn-quiet" data-d="-0.1" aria-label="Card 1 mm towards the lens">−0.1</button><button type="button" class="btn-quiet" data-d="0.1" aria-label="Card 1 mm away from the lens">+0.1</button><button type="button" class="btn-quiet" data-d="1" aria-label="Card 1 cm away from the lens">+1</button></span><span class="ctl-help small" style="margin:0">cm · or drag the card</span></div>
+            <div class="rec-row"><button type="button" class="btn-main" id="dist-mark">Read F from the rule</button></div>
+            <p class="rec-msg" id="dist-recmsg" aria-live="polite"></p>
+          </div>
+          <div class="mini-obs" id="dist-obs" aria-live="polite"><div><span>Distance object</span>window ≈ 10 m</div><div><span><i>F</i></span><b id="dist-F">—</b> cm</div><div><span>2<i>F</i></span><b id="dist-2F">—</b> cm</div></div>
+        </div>
+
+        <h2 class="step-h"><span class="no">02</span>The u–v method <em>· lamp, lens and screen</em></h2>
+        <div class="rig-frame rig tlock" id="lens-frame"><svg id="lens-rig" viewBox="0 0 1000 640" role="img" aria-label="Optical bench with a lamp house carrying an F-shaped object, a convex lens and a screen on riders, a loupe on the scale and a view of the screen"></svg></div>
+        <p class="rig-msg" id="lens-msg" aria-live="polite"></p>
+        <div class="prac-mid">
+          <div class="panel tlock" id="lens-ctl">
+            <h2 class="panel-h">Riders</h2>
+            <div class="ctl-row"><span class="lab">Lamp</span><span class="nudge-btns" data-k="lamp"><button type="button" class="btn-quiet" data-d="-1" aria-label="Lamp 1 cm left">−1</button><button type="button" class="btn-quiet" data-d="-0.1" aria-label="Lamp 1 mm left">−0.1</button><button type="button" class="btn-quiet" data-d="0.1" aria-label="Lamp 1 mm right">+0.1</button><button type="button" class="btn-quiet" data-d="1" aria-label="Lamp 1 cm right">+1</button></span></div>
+            <div class="ctl-row"><span class="lab">Screen</span><span class="nudge-btns" data-k="screen"><button type="button" class="btn-quiet" data-d="-1" aria-label="Screen 1 cm left">−1</button><button type="button" class="btn-quiet" data-d="-0.1" aria-label="Screen 1 mm left">−0.1</button><button type="button" class="btn-quiet" data-d="0.1" aria-label="Screen 1 mm right">+0.1</button><button type="button" class="btn-quiet" data-d="1" aria-label="Screen 1 cm right">+1</button></span></div>
+            <div class="ctl-row"><span class="lab">Show</span><button type="button" class="btn-quiet sm" id="lens-rays" aria-pressed="false">Principal rays</button></div>
+            <p class="ctl-help small">The lens stays at the 55.0 cm mark. Drag the lamp house and the screen along the rail, or select one and use ← → (Shift for 1 cm).</p>
+          </div>
+          <div class="panel tlock" id="lens-rec">
+            <h2 class="panel-h">Readings</h2>
+            <p class="ctl-help">With a sharp image on the screen, read the three rider indexes through the loupe, then u = lens − lamp and v = screen − lens.</p>
+            <div class="rec-row">
+              <button type="button" class="btn-quiet" id="lens-read">Read the scale</button>
+              <div class="fld"><label for="lens-u"><i>u</i> (cm)</label><input id="lens-u" type="text" inputmode="decimal" autocomplete="off"></div>
+              <div class="fld"><label for="lens-v"><i>v</i> (cm)</label><input id="lens-v" type="text" inputmode="decimal" autocomplete="off"></div>
+              <button type="button" class="btn-main" id="lens-record">Record</button>
+              <button type="button" class="btn-quiet sm" id="lens-undo">Delete last</button>
+            </div>
+            <p class="read-out" id="lens-readout" aria-live="polite"></p>
+            <p class="rec-msg" id="lens-recmsg" aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="panel" id="lens-tpanel" style="margin-top:16px">
+          <div class="panel-head"><h2 class="panel-h">Observation table · u–v method</h2><span class="panel-tag">1/F = 1/U + 1/V</span></div>
+          <div class="table-wrap"><table class="obs" id="lens-table"></table></div>
+        </div>
+        <div class="prac-lower">
+          <div class="panel" id="lens-graph-panel">
+            <div class="panel-head"><h2 class="panel-h">Graph · 1/v against 1/u</h2><span class="panel-tag">both intercepts are 1/F</span></div>
+            <div class="graph-wrap"><svg id="lens-graph" viewBox="0 0 640 560" role="img" aria-label="1/v against 1/u with a line that can be moved by its two handles"></svg></div>
+            <div class="g-read" id="lens-gread"></div>
+            <div class="calc-actions"><button type="button" class="btn-quiet sm tlock" id="lens-gline">Reset the line</button></div>
+            <p class="ctl-help small" style="margin-top:12px">Drag the two round handles until the line runs through the points with as many above as below. Its extensions cut both axes; each cut is 1/F.</p>
+          </div>
+          <div class="panel" id="lens-calc">
+            <div class="panel-head"><h2 class="panel-h">Calculation</h2><span class="panel-tag">P = 1/f, f in metres</span></div>
+            <div class="calc-rows tlock">
+              <div class="calc-sec">Theoretical</div>
+              <div class="cr" id="cr-fth"><label for="in-fth"><span class="k">1</span>Labelled focal length <span class="sym" tabindex="0" data-sym="fth"><i>f</i><sub>th</sub></span> <span class="u">cm</span></label><input id="in-fth" type="text" inputmode="decimal" autocomplete="off"></div>
+              <div class="calc-sec">Experimental · table</div>
+              <div class="cr" id="cr-fex"><label for="in-fex"><span class="k">2</span><span class="sym" tabindex="0" data-sym="fex">Mean (<i>F</i>)</span> = mean of the <span class="sym" tabindex="0" data-sym="Fcol"><i>F</i> column</span> <span class="u">cm</span></label><input id="in-fex" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-fex"></div></div>
+              <div class="calc-sec">Graphical</div>
+              <div class="cr" id="cr-a"><label for="in-a"><span class="k">3</span>Intercept on the 1/<i>u</i> axis <span class="sym" tabindex="0" data-sym="a"><i>a</i></span> <span class="u">cm⁻¹</span></label><input id="in-a" type="text" inputmode="decimal" autocomplete="off"></div>
+              <div class="cr" id="cr-b"><label for="in-b"><span class="k">4</span>Intercept on the 1/<i>v</i> axis <span class="sym" tabindex="0" data-sym="b"><i>b</i></span> <span class="u">cm⁻¹</span></label><input id="in-b" type="text" inputmode="decimal" autocomplete="off"></div>
+              <div class="cr" id="cr-mi"><label for="in-mi"><span class="k">5</span>Mean intercept <span class="sym" tabindex="0" data-sym="mi">1/<i>F</i></span> = (<span class="sym" tabindex="0" data-sym="ap"><i>a</i></span> + <span class="sym" tabindex="0" data-sym="bp"><i>b</i></span>) ÷ 2 <span class="u">cm⁻¹</span></label><input id="in-mi" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-mi"></div></div>
+              <div class="cr" id="cr-fg"><label for="in-fg"><span class="k">6</span>Graphical <span class="sym" tabindex="0" data-sym="fg"><i>F</i><sub>graph</sub></span> = 1 ÷ <span class="sym" tabindex="0" data-sym="mip">(1/<i>F</i>)</span> <span class="u">cm</span></label><input id="in-fg" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-fg"></div></div>
+              <div class="calc-sec">Power</div>
+              <div class="cr" id="cr-fm"><label for="in-fm"><span class="k">7</span><span class="sym" tabindex="0" data-sym="fm"><i>f</i> in metres</span> = <span class="sym" tabindex="0" data-sym="fexp">Mean (<i>F</i>)</span> ÷ 100 <span class="u">m</span></label><input id="in-fm" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-fm"></div></div>
+              <div class="cr" id="cr-P"><label for="in-P"><span class="k">8</span>Power <span class="sym" tabindex="0" data-sym="P"><i>P</i></span> = 1 ÷ <span class="sym" tabindex="0" data-sym="fmp"><i>f</i></span> <span class="u">dioptre (D)</span></label><input id="in-P" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-P"></div></div>
+              <div class="calc-sec">Percentage errors</div>
+              <div class="cr" id="cr-e1"><label for="in-e1"><span class="k">9</span><span class="sym" tabindex="0" data-sym="e1">% error, table</span> = |<span class="sym" tabindex="0" data-sym="fexq"><i>F</i><sub>exp</sub></span> − <span class="sym" tabindex="0" data-sym="fthq"><i>f</i><sub>th</sub></span>| ÷ <i>f</i><sub>th</sub> × 100 <span class="u">%</span></label><input id="in-e1" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-e1"></div></div>
+              <div class="cr" id="cr-e2"><label for="in-e2"><span class="k">10</span><span class="sym" tabindex="0" data-sym="e2">% error, graph</span> = |<span class="sym" tabindex="0" data-sym="fgq"><i>F</i><sub>graph</sub></span> − <span class="sym" tabindex="0" data-sym="fthq2"><i>f</i><sub>th</sub></span>| ÷ <i>f</i><sub>th</sub> × 100 <span class="u">%</span></label><input id="in-e2" type="text" inputmode="decimal" autocomplete="off"><div class="cr-work" id="w-e2"></div></div>
+            </div>
+            <div class="calc-actions tlock"><button type="button" class="btn-main" id="lens-check">Check</button></div>
+            <div class="check-msg" id="lens-chk" aria-live="polite"></div>
+            <div class="result-box" id="lens-result" hidden></div>
+          </div>
+        </div>
+        <div class="prac-foot tlock"><button type="button" class="btn-quiet" id="lens-reset">Start over</button></div>
+        <div class="hint-bar"><span>Drag: lamp · screen · card · graph handles</span><span>← → move a selected rider · Shift ×10</span><span>Hover a symbol: its source</span></div>
+      </div>
+    </section>
+
+    <!-- ===================== AIM ===================== -->
+    <section class="view" id="view-lens-aim" data-title="Aim and outcomes">
+      <div class="sheet">
+        <p class="disclaimer">This site was prepared with the help of AI. Values, wording and figures may contain mistakes; the lab manual and the instructor take precedence.</p>
+        <div class="folio"><span><b>Lab 11</b> · Aim and outcomes</span><span>Optics</span></div>
+        <h1 class="page-h">Focal length of a <em>convex lens</em></h1>
+        <figure class="aim-figure"><svg id="aim-fig" viewBox="0 0 900 330" role="img" aria-label="Object beyond 2F, convex lens, and the real inverted image between F and 2F on the other side, with u and v marked"></svg></figure>
+        <div class="aim-block"><div class="aim-label">Aim</div><p class="aim-text">To determine the focal length of a convex lens by the u–v method and hence calculate the power of the lens.</p></div>
+        <h2 class="sub-h">Intended learning outcomes</h2>
+        <ul class="outcomes">
+          <li>Determine the focal length of a given convex lens by the u–v method.</li>
+          <li>Determine the power of the lens.</li>
+          <li>Represent data graphically and analyse experimental error.</li>
+        </ul>
+        <h2 class="sub-h">Medical perspectives</h2>
+        <div class="med-row">
+          <div class="med"><svg class="med-ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M4 32 Q32 6 60 32 Q32 58 4 32Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><circle cx="32" cy="32" r="11" fill="var(--sec-pale)" stroke="var(--sec)" stroke-width="2"/><path d="M32 24 Q36 32 32 40 Q28 32 32 24Z" fill="#cfe4e3" stroke="var(--ink)" stroke-width="1.4"/><circle cx="32" cy="32" r="3" fill="var(--ink)"/></svg><h3>The eye's lens and accommodation</h3><p>The cornea and the crystalline lens form a converging system that focuses images on the retina. The ciliary muscle changes the curvature of the lens, so its focal length and power change: that is accommodation, from a far object to a near one.</p></div>
+          <div class="med"><svg class="med-ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="18" cy="34" r="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><circle cx="46" cy="34" r="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/><path d="M30 34h4M6 30 2 24M58 30l4-6" stroke="var(--ink)" stroke-width="2" fill="none"/><path d="M18 24 Q23 34 18 44 Q13 34 18 24Z M46 24 Q51 34 46 44 Q41 34 46 24Z" fill="#cfe4e3" stroke="var(--acc)" stroke-width="1.4"/><text x="32" y="60" text-anchor="middle" font-size="10" font-family="var(--f-cap)" font-weight="600" fill="var(--acc-2)">+2.50 D</text></svg><h3>Correcting hypermetropia</h3><p>In long sight the eye focuses behind the retina, so near objects blur. A convex (plus) lens adds converging power. Prescriptions give that power in dioptres, such as +2.50 D, which is a lens of focal length 1 ÷ 2.50 = 0.40 m.</p></div>
+          <div class="med"><svg class="med-ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="24" cy="26" r="15" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.2"/><path d="M24 13 Q30 26 24 39 Q18 26 24 13Z" fill="#cfe4e3" stroke="var(--sec)" stroke-width="1.4"/><path d="M35 37 L54 56" stroke="var(--ink)" stroke-width="6" stroke-linecap="square"/><path d="M35 37 L54 56" stroke="var(--acc)" stroke-width="2.4"/></svg><h3>Ophthalmoscopes, magnifiers and microscopes</h3><p>A convex lens used inside its focal length gives an upright, magnified virtual image, the principle of a magnifier. Ophthalmoscopes, otoscopes and microscopes combine lenses of known power to view the retina, the ear canal and tissue samples.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== THEORY ===================== -->
+    <section class="view" id="view-lens-theory" data-title="Theory">
+      <div class="sheet">
+        <div class="folio"><span><b>Lab 11</b> · Theory</span><span>Thin convex lens</span></div>
+        <h1 class="page-h">Where the image <em>forms</em></h1>
+        <h2 class="sub-h first">A converging lens</h2>
+        <div class="fig-grid">
+          <figure class="fig-box"><svg id="th-focus" viewBox="0 0 520 260" role="img" aria-label="Parallel rays refracted by a convex lens meet at the principal focus F"></svg></figure>
+          <div class="fig-text">
+            <p>A convex lens is thicker at the centre than at the edge. Rays parallel to the <b>principal axis</b> are bent towards it and meet at the <b>principal focus</b> <i>F</i> on the far side. The distance from the <b>optical centre</b> to <i>F</i> is the <b>focal length</b> <i>f</i>.</p>
+            <p>Light can pass either way, so there is a focus on each side, at the same distance. Twice that distance is marked <b>2<i>F</i></b>. A ray through the optical centre passes straight on.</p>
+          </div>
+        </div>
+        <h2 class="sub-h">The lens formula</h2>
+        <div class="eq-hero"><span class="frac"><span>1</span><span><i>F</i></span></span> = <span class="frac"><span>1</span><span><i>U</i></span></span> + <span class="frac"><span>1</span><span><i>V</i></span></span></div>
+        <p class="prose"><i>u</i> is the distance from the lens to the object and <i>v</i> from the lens to the image. Both are measured from the optical centre, in cm here.</p>
+        <div class="two-notes">
+          <div class="side-note"><div class="sn-k">Sign convention used here</div><p>Real is positive: distances to real objects and real images are positive, to virtual ones negative. Every reading on the bench is a real object and a real image on the screen, so <i>u</i>, <i>v</i> and <i>f</i> are all positive and 1/<i>F</i> = 1/<i>U</i> + 1/<i>V</i> is used as it stands.</p></div>
+          <div class="side-note sec"><div class="sn-k">Another common form</div><p>With the Cartesian convention (distances measured along the light, object side negative) the same lens obeys 1/<i>v</i> − 1/<i>u</i> = 1/<i>f</i>. Put in <i>u</i> = −30 cm and it gives the same <i>v</i> = +30 cm. The two forms agree; mixing them is what causes sign slips.</p></div>
+        </div>
+        <h2 class="sub-h">Ray diagrams <em>for each case</em></h2>
+        <p class="prose">Two rays from the top of the object are enough: one parallel to the axis, refracted through <i>F</i>; one through the optical centre, undeviated. The image is where they meet.</p>
+        <div class="cases" id="th-cases"></div>
+        <div class="table-wrap" style="margin-top:22px"><table class="nat">
+          <thead><tr><th>Object</th><th>Image</th><th>Nature</th><th>Magnification m = v/u</th></tr></thead>
+          <tbody>
+            <tr><td>at infinity</td><td>at <i>F</i></td><td>real, inverted</td><td>very small</td></tr>
+            <tr><td>beyond 2<i>F</i> (u &gt; 2F)</td><td>between <i>F</i> and 2<i>F</i></td><td>real, inverted</td><td>diminished, m &lt; 1</td></tr>
+            <tr><td>at 2<i>F</i> (u = 2F)</td><td>at 2<i>F</i></td><td>real, inverted</td><td>same size, m = 1</td></tr>
+            <tr><td>between <i>F</i> and 2<i>F</i></td><td>beyond 2<i>F</i></td><td>real, inverted</td><td>magnified, m &gt; 1</td></tr>
+            <tr><td>at <i>F</i></td><td>at infinity</td><td>no image</td><td>—</td></tr>
+            <tr><td>inside <i>F</i> (u &lt; F)</td><td>same side as the object</td><td>virtual, upright</td><td>magnified</td></tr>
+          </tbody></table></div>
+        <div class="explorer">
+          <div class="ex-view"><svg id="th-ex-svg" viewBox="0 0 740 300" role="img" aria-label="Ray diagram for a lens of focal length 15 cm with an adjustable object distance"></svg></div>
+          <div class="ex-side">
+            <div class="ctl"><label for="th-ex-u">Object distance u <b id="th-ex-uv">45.0 cm</b></label><input type="range" id="th-ex-u" min="8" max="60" step="0.5" value="45"></div>
+            <div class="ex-out" id="th-ex-out" aria-live="polite"></div>
+            <p class="ex-note">f = 15 cm; thin lens, real-is-positive.</p>
+          </div>
+        </div>
+        <h2 class="sub-h">Why u = 2F gives <em>v = 2F</em></h2>
+        <ol class="deriv">
+          <li>Put u = 2f into the lens formula.<span class="eqn">1/v = 1/f − 1/(2f)</span></li>
+          <li>The two fractions share the denominator 2f.<span class="eqn">1/v = 2/(2f) − 1/(2f) = 1/(2f)</span></li>
+          <li>So the image is also at 2F, and the magnification is v/u = 1: same size, inverted.<span class="eqn">v = 2f, m = 1</span></li>
+        </ol>
+        <p class="note">With f = 15 cm: u = 30 cm gives v = 30 cm. This is the reading that sits in the middle row of the table, between the diminished and magnified groups.</p>
+        <h2 class="sub-h">The shortest object-to-image distance: <em>u + v = 4F</em></h2>
+        <div class="fig-grid">
+          <figure class="fig-box"><svg id="th-sum" viewBox="0 0 520 330" role="img" aria-label="u plus v against u for f = 15 cm, with its minimum of 60 cm at u = 30 cm"></svg></figure>
+          <div class="fig-text">
+            <p>Write u = f + x and v = f + y, where x and y are the distances beyond each focus. The lens formula becomes <b>x y = f²</b> (Newton's form).</p>
+            <p>Then u + v = 2f + x + y, and for a fixed product x y = f² the sum x + y is smallest when x = y = f. So u + v ≥ 4f, with equality only at u = v = 2f.</p>
+            <p>On the bench: the screen can never catch a real image closer than 4F from the object. For a 15 cm lens, lamp and screen must be at least 60 cm apart.</p>
+          </div>
+        </div>
+        <h2 class="sub-h">Why the graph of 1/v against 1/u is a straight line</h2>
+        <p class="prose">Rearranged, the lens formula reads <b>1/v = −1/u + 1/f</b>: a straight line of slope −1. Where it meets the 1/v axis (1/u = 0), 1/v = 1/f; where it meets the 1/u axis (1/v = 0), 1/u = 1/f. Both intercepts equal 1/F, so their mean is the best value, and F = 1 ÷ mean intercept. Drawing one best-fit line through all the points averages out the scatter of the single readings.</p>
+        <h2 class="sub-h">Power of a lens</h2>
+        <div class="fig-grid">
+          <div class="fig-text">
+            <p>The power is the reciprocal of the focal length in metres: <b>P = 1/f</b>. Its unit is the <b>dioptre</b>, D = m⁻¹. A converging lens has positive power, a diverging lens negative.</p>
+            <p>For f = 15 cm = 0.15 m, P = 1 ÷ 0.15 ≈ +6.67 D. A shorter focal length bends light more strongly and has a larger power. Thin lenses in contact add their powers: P = P₁ + P₂, which is why prescriptions are written in dioptres.</p>
+          </div>
+          <div class="side-note"><div class="sn-k">Units</div><p>f must be in metres. 15 cm used directly gives 1 ÷ 15 = 0.0667, a hundred times too small. 15 cm = 15 ÷ 100 = 0.15 m.</p></div>
+        </div>
+        <h2 class="sub-h">Sources of error</h2>
+        <div class="three-notes">
+          <div class="side-note"><div class="sn-k">Parallax</div><p>Reading the index from an angle shifts it against the scale. The eye goes square to the scale, over the hairline of the rider window.</p></div>
+          <div class="side-note"><div class="sn-k">Range of sharpness</div><p>The image looks sharp over a short range of screen positions (depth of focus), longer for magnified images. Setting the screen in the middle of that range halves the error.</p></div>
+          <div class="side-note"><div class="sn-k">Index error</div><p>The rider index may not lie exactly under the optical centre or the object plane. A known offset is added to every reading, or measured with a rule.</p></div>
+          <div class="side-note sec"><div class="sn-k">Alignment</div><p>The object, the lens centre and the screen centre must be on one horizontal axis, at the same height, with the lens face square to the bench.</p></div>
+          <div class="side-note sec"><div class="sn-k">Distance object</div><p>A window 10 m away is not at infinity: its image forms at 1000 × 15 ÷ 985 ≈ 15.2 cm, a little beyond F. That is why it gives only a rough F.</p></div>
+          <div class="side-note sec"><div class="sn-k">Thin-lens model</div><p>A real lens has thickness, so u and v strictly run from its principal planes. For a thin lens the optical centre is close enough.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== METHOD ===================== -->
+    <section class="view" id="view-lens-method" data-title="Method">
+      <div class="sheet">
+        <div class="folio"><span><b>Lab 11</b> · Method</span><span>Procedure</span></div>
+        <h1 class="page-h">Procedure <em>on the bench</em></h1>
+        <h2 class="sub-h first">Apparatus</h2>
+        <div class="app-grid" id="app-grid"></div>
+        <h2 class="sub-h">Steps</h2>
+        <div class="method-wrap">
+          <ol class="steps" id="m-steps">
+            <li class="step-part">Part 1 · distance-object method</li>
+            <li><button type="button" class="step"><span class="sn">1</span><span>Point the lens at a distant object, such as a window across the room, and move a white card behind it until a sharp, inverted image of the window forms.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">2</span><span>Measure the distance from the lens to the card: a rough F. Record F and 2F; they show where to place the lamp next.</span></button></li>
+            <li class="step-part">Part 2 · u–v method</li>
+            <li><button type="button" class="step"><span class="sn">3</span><span>Place the lamp house beyond 2F from the lens, so the object distance is greater than twice the focal length.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">4</span><span>Move the screen on the other side of the lens until a sharp, diminished image is formed.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">5</span><span>Measure u, from the centre of the lens to the object, and v, from the centre of the lens to the screen, and record them in the table.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">6</span><span>Repeat for two more diminished images (u &gt; 2F), one at u = 2F, and three magnified images (F &lt; u &lt; 2F), recording u and v each time.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">7</span><span>Plot 1/v against 1/u. Draw the best-fit straight line and extend it to cut both axes.</span></button></li>
+            <li><button type="button" class="step"><span class="sn">8</span><span>Read both intercepts and take their mean; F = 1 ÷ mean intercept. Calculate the power P = 1/f with f in metres.</span></button></li>
+          </ol>
+          <div class="step-view"><div class="step-fig"><svg id="m-step-svg" viewBox="0 0 560 330" aria-hidden="true"></svg></div><p class="step-cap" id="m-step-cap" aria-live="polite"></p></div>
+        </div>
+        <div class="tips"><div class="tips-label">Good practice</div><ul>
+          <li>Read each rider index with the eye square to the scale, over the hairline, to avoid parallax.</li>
+          <li>Find the range over which the image looks sharp by moving the screen both ways, then set it in the middle.</li>
+          <li>Keep the object, the centre of the lens and the centre of the screen at the same height on one axis.</li>
+          <li>Use a dimmed room so the image on the screen is easy to judge.</li>
+          <li>Space the readings: three well beyond 2F, one at 2F, three between F and 2F.</li>
+        </ul></div>
+        <div class="tips safety"><div class="tips-label">Care</div><ul>
+          <li>The lamp house gets hot: move it by its rider, not by the case.</li>
+          <li>Hold the lens by its holder and keep fingerprints off the glass.</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <!-- ===================== OBSERVATION ===================== -->
+    <section class="view" id="view-lens-obs" data-title="Observation and calculation">
+      <div class="sheet">
+        <div class="folio"><span><b>Lab 11</b> · Observation and calculation</span><span>Worked example</span></div>
+        <h1 class="page-h">From readings <em>to F and P</em></h1>
+        <p class="ex-head"><span class="ex-badge">Example values</span></p>
+        <p class="note" style="margin-top:0;margin-bottom:22px">A worked example for a lens labelled f = 15 cm, chosen to be physically consistent: each v is the lens-formula value with a small reading scatter of a few millimetres, inside the range over which the image looks sharp.</p>
+        <div class="formula-card"><div class="big-eq"><span class="frac"><span>1</span><span><i>F</i></span></span> = <span class="frac"><span>1</span><span><i>U</i></span></span> + <span class="frac"><span>1</span><span><i>V</i></span></span></div><p>Power: <i>P</i> = 1/<i>f</i>, with <i>f</i> in metres, in dioptres.</p></div>
+        <h2 class="sub-h">1 · Distance-object method</h2>
+        <div class="mini-obs"><div><span>Distance object</span>window ≈ 10 m</div><div><span><i>F</i></span><b id="ex-F"></b> cm</div><div><span>2<i>F</i></span><b id="ex-2F"></b> cm</div></div>
+        <h2 class="sub-h">2 · U–V method</h2>
+        <div class="table-wrap"><table class="obs" id="ex-table"></table></div>
+        <h2 class="sub-h">Graph</h2>
+        <div class="graph-wrap"><svg id="ex-graph" viewBox="0 0 640 560" role="img" aria-label="1/v against 1/u for the example values, with the best-fit line meeting both axes"></svg></div>
+        <h2 class="sub-h">Calculation</h2>
+        <div class="calc" id="ex-calc"></div>
+        <h2 class="sub-h">Result</h2>
+        <div class="table-wrap"><table class="res-t" id="ex-res"></table></div>
+        <h2 class="sub-h">Common slips</h2>
+        <div class="slips">
+          <div class="slip"><h3>u and v swapped</h3><p>u runs from the lens to the object (the lamp), v from the lens to the screen. Swapping them puts each row in the wrong group.</p></div>
+          <div class="slip"><h3>Forgetting the reciprocal</h3><p>1/F = 0.0667 cm⁻¹ is not the focal length. F = 1 ÷ 0.0667 ≈ 15.0 cm.</p></div>
+          <div class="slip"><h3>Power with f in cm</h3><p>1 ÷ 15 = 0.0667 is a hundred times too small. f = 0.15 m, so P = 1 ÷ 0.15 = 6.67 D.</p></div>
+          <div class="slip"><h3>One intercept only</h3><p>Both intercepts estimate 1/F. Their mean uses the whole line and cancels part of the scatter.</p></div>
+          <div class="slip"><h3>Sum instead of mean</h3><p>The experimental F is the mean of the seven F values, not their sum; the mean intercept is (a + b) ÷ 2.</p></div>
+          <div class="slip"><h3>Sign slips</h3><p>Real-is-positive: on the bench u, v, f and the intercepts are all positive, and a convex lens has a positive power.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MCQ ===================== -->
+    <section class="view" id="view-lens-mcq" data-title="MCQs">
+      <div class="sheet">
+        <div class="folio"><span><b>Lab 11</b> · MCQs</span><span>Check understanding</span></div>
+        <h1 class="page-h">Check <em>understanding</em></h1>
+        <div class="mcq-bar"><span class="mcq-score" id="mcq-score"></span><button type="button" class="btn-quiet sm" id="mcq-reset">Reset</button></div>
+        <ol class="mcq-list" id="mcq-list"></ol>
+        <div class="page-end with-extras">
+          <div class="extras"><button type="button" class="extras-toggle" aria-expanded="false" aria-haspopup="true">Optional extras ▴</button>
+            <div class="extras-panel" role="menu" id="extras-panel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="tut-bar" id="tut-bar" hidden role="region" aria-label="Tutorial">
+  <div class="tut-main"><div class="tut-title" id="tut-title"></div><div class="tut-text" id="tut-text" aria-live="polite"></div><div class="tut-f" id="tut-f"></div></div>
+  <div class="tut-ctl">
+    <button type="button" class="tut-btn" id="tut-prev" title="Previous step (←)">‹ Previous step</button>
+    <button type="button" class="tut-btn" id="tut-next" title="Next step (→)">Next step ›</button>
+    <button type="button" class="tut-btn tut-pause" id="tut-pause" aria-pressed="false" title="Pause (Space)"><svg class="ti i-pause" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="2" width="3.2" height="10"/><rect x="8.3" y="2" width="3.2" height="10"/></svg><svg class="ti i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.8v10.4l8.5-5.2z"/></svg><span class="tl">Pause</span></button>
+    <label class="tut-speed">Speed <select id="tut-speed" aria-label="Tutorial speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option></select></label>
+    <button type="button" class="tut-btn stop" id="tut-stop">■ Stop</button>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/tutor.js"></script>
+<script src="js/optics.js"></script>
+<script src="js/bench.js"></script>
+<script src="js/mcq.js"></script>
+<script src="js/content.js"></script>
+<script src="js/lab.js"></script>
+<script>SOL.boot();</script>
+</body>
+</html>

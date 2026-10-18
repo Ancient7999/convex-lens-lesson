@@ -1,0 +1,1 @@
+window.SOL.MCQ=[];

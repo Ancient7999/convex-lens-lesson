@@ -1,0 +1,9 @@
+@font-face{font-family:'EB Garamond';font-style:normal;font-weight:400 800;font-display:swap;src:url(../fonts/EBGaramond-var.woff2) format('woff2')}
+@font-face{font-family:'EB Garamond';font-style:italic;font-weight:400 800;font-display:swap;src:url(../fonts/EBGaramond-italic-var.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans';font-style:normal;font-weight:400;font-display:swap;src:url(../fonts/FiraSans-Regular.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans';font-style:italic;font-weight:400;font-display:swap;src:url(../fonts/FiraSans-Italic.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/FiraSans-Medium.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/FiraSans-SemiBold.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans';font-style:normal;font-weight:700;font-display:swap;src:url(../fonts/FiraSans-Bold.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans Condensed';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/FiraSansCondensed-Medium.woff2) format('woff2')}
+@font-face{font-family:'Fira Sans Condensed';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/FiraSansCondensed-SemiBold.woff2) format('woff2')}

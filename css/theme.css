@@ -1,0 +1,15 @@
+/* Theme: lichen and vermilion. Grey-green drafting-paper surfaces, ink rules, a vermilion accent and indigo as the second colour. */
+:root{
+  color-scheme:light;
+  --bg:#c3c8bb; --paper:#cfd3c7; --paper-2:#c8ccbf; --paper-3:#bec3b5; --card:#d8dbd0; --card-rgb:216,219,208; --paper-rgb:207,211,199;
+  --line:#22261d; --rule:#a7ad9d; --rule-2:#8f9686;
+  --ink:#161a13; --ink-2:#343a2e; --muted:#555c4d;
+  --acc:#b23d1d; --acc-2:#86290f; --acc-3:#d47a5d; --acc-pale:#e2cdc0; --acc-line:#c99a88; --acc-rgb:178,61,29; --on-acc:#fbf3ee;
+  --sec:#2c467a; --sec-2:#1f3460; --sec-pale:#c7cedb; --sec-rgb:44,70,122;
+  --good:#2f6a3c; --good-pale:#cbdac5; --good-ink:#1d4426; --bad:#a8321f; --bad-pale:#e6cfc6; --bad-ink:#661d10; --bad-line:#c99286;
+  --warn:#8a630f; --warn-pale:#e2d9bf; --warn-ink:#4f3805; --shadow-rgb:22,26,19;
+  --plot:#e1e3da; --plot-grid:#bcc2b1;
+  --bg-ray-rgb:178,61,29; --bg-ray2-rgb:44,70,122; --grid-ink:rgba(22,26,19,.05);
+  --top:60px; --frame:1.5px;
+  --f-head:'EB Garamond',Georgia,'Times New Roman',serif; --f-body:'Fira Sans',system-ui,sans-serif; --f-cap:'Fira Sans Condensed','Fira Sans',system-ui,sans-serif;
+}
