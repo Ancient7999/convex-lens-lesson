@@ -2,7 +2,7 @@
 
 An interactive lesson on finding the focal length of a convex lens by the u–v method on an optical bench, and the power of the lens.
 
-Live: https://sonicunligmated.github.io/convex-lens-lesson/
+Live site: https://Ancient7999.github.io/convex-lens-lesson/
 
 ## Contents
 
